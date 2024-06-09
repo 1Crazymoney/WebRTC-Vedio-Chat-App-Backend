@@ -23,10 +23,13 @@ const roomHandler = (socket: Socket) => {
             logger.info(JSON.stringify(rooms));
             socket.join(roomId);
 
-            //When anybody joins the room
 
-            socket.join("ready",()=>{
-                socket.to(roomId).emit("user-joined",{peerId});
+            // whenever anyone joins the room
+
+            socket.on("ready", () => {
+                // from the frontend once someone joins the room we will emit a ready event
+                // then from our server we will emit an event to all the clients conn that a new peer has added
+                socket.to(roomId).emit("user-joined", {peerId});
             });
 
 
