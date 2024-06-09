@@ -23,6 +23,12 @@ const roomHandler = (socket: Socket) => {
             logger.info(JSON.stringify(rooms));
             socket.join(roomId);
 
+            //When anybody joins the room
+
+            socket.join("ready",()=>{
+                socket.to(roomId).emit("user-joined",{peerId});
+            });
+
 
             socket.emit("get-users", {
                 roomId,
